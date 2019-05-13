@@ -1,15 +1,18 @@
 import React from 'react';
+import {Provider} from 'react-redux';
+import {store} from './services/redux/store'
+import Login from './components/login/Login';
 import Artists from './components/artists/Artists';
 import './App.css';
 
-function App() {
-  return (
+const App = () => (
+  <Provider store={store}>
     <div className="App">
-      <Artists />
-      <header className="App-header">
-      </header>
+      <Login/>
+      <br/>
+      <Artists/>
     </div>
-  );
-}
+  </Provider>
+);
 
 export default App;

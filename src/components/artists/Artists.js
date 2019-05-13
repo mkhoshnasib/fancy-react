@@ -1,32 +1,18 @@
-import React, { Component } from 'react';
-import {httpClient} from '../../services/http/http-client/http-client';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {getArtist} from '../../services/redux/actions/artistActions';
 
 class Artists extends Component {
-  componentWillMount = () => {
-    const clientId = '2db6ed818c29478f983950c342e37f0c';
-    const clientSecret = '2818d384a08d407393985791eccc5897';
-
-    fetch('/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Basic ' + (new Buffer(`${clientId}:${clientSecret}`).toString('base64')),
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: 'grant_type=client_credentials',
-    }).then(res => res.json())
-      .then(res => {
-        const options = {
-          headers: {
-            Authorization: 'Bearer ' + res.access_token,
-          }
-        };
-        httpClient.getCall('/artists/0oSGxfWSnnOXhD2fKuz2Gy', options).then(res => {
-          console.log(res);
-        });
-      });
+  constructor(props) {
+    super(props);
+    this.fetchArtists = this.fetchArtists.bind(this);
   };
 
-  render = () => <button onClick={this.getArtists}>get artist</button>;
+  fetchArtists = () => {
+    this.props.getArtist();
+  };
+
+  render = () => <button onClick={this.fetchArtists}>get artist</button>;
 }
 
-export default Artists;
+export default connect(null, {getArtist})(Artists);

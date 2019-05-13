@@ -1,7 +1,10 @@
 import request from '../http-interceptor/http-interceptor';
+import {store} from '../../redux/store';
 
-const getCall = (url, options) => request({ url, method: 'GET', options });
+const options = {headers: {Authorization: 'Bearer ' + store.getState().login.accessToken}};
 
-const postCall = (url, body, options) => request({ url, method: 'POST' , body, options});
+const getCall = (url) => request({url, method: 'GET', options});
+
+const postCall = (url, body) => request({url, method: 'POST', body, options});
 
 export const httpClient = { getCall, postCall };
